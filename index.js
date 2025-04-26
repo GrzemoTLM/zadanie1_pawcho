@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -15,7 +16,18 @@ app.post('/pogoda', async (req, res) => {
     const { country, city } = req.body;
     const weatherData = await getWeather(city, country);
     if (weatherData) {
-        const weather = `W ${weatherData.name} jest ${weatherData.main.temp}°C i ${weatherData.weather[0].description}`;
+        const sunrise = new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+        const sunset = new Date(weatherData.sys.sunset * 1000).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+
+        const weather = `
+            W ${weatherData.name} jest ${weatherData.main.temp}°C i ${weatherData.weather[0].description}.<br>
+            Odczuwalna: ${weatherData.main.feels_like}°C.<br>
+            Ciśnienie: ${weatherData.main.pressure} hPa.<br>
+            Wilgotność: ${weatherData.main.humidity}%.<br>
+            Wiatr: ${weatherData.wind.speed} m/s.<br>
+            Wschód słońca: ${sunrise}.<br>
+            Zachód słońca: ${sunset}.
+        `;
         res.send(`
             <h1>Aktualna pogoda</h1>
             <p>${weather}</p>
@@ -30,7 +42,7 @@ app.post('/pogoda', async (req, res) => {
 const fetch = require('node-fetch');
 
 async function getWeather(city, country) {
-    const apiKey = "63a538d69d6d1f43c15e7be6d82e222f\n";
+    const apiKey = process.env.API_KEY;
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${apiKey}&units=metric`;
 
     try {
