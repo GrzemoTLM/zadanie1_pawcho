@@ -1,22 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
+    <meta charset="UTF-8">
     <title>Wybierz lokalizację</title>
 </head>
 <body>
 <h1>Wybierz kraj i miasto</h1>
 <form action="/pogoda" method="POST">
-    <label>Kraj:</label>
-    <select name="country">
+    <label for="country">Kraj:</label>
+    <select name="country" id="country" onchange="updateCities()" required>
+        <option value="">-- Wybierz kraj --</option>
         <option value="Polska">Polska</option>
         <option value="Niemcy">Niemcy</option>
     </select><br><br>
-    <label>Miasto:</label>
-    <select name="city">
-        <option value="Warszawa">Warszawa</option>
-        <option value="Berlin">Berlin</option>
+    <label for="city">Miasto:</label>
+    <select name="city" id="city" required>
+        <option value="">-- Wybierz najpierw kraj --</option>
     </select><br><br>
     <button type="submit">Zatwierdź</button>
 </form>
+
+<script>
+    const locations = {
+        "Polska": ["Warszawa", "Kraków", "Gdańsk"],
+        "Niemcy": ["Berlin", "Monachium", "Hamburg"]
+    };
+
+    function updateCities() {
+        const countrySelect = document.getElementById("country");
+        const citySelect = document.getElementById("city");
+        const selectedCountry = countrySelect.value;
+
+        citySelect.innerHTML = "";
+
+        if (selectedCountry && locations[selectedCountry]) {
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.text = "-- Wybierz miasto --";
+            citySelect.appendChild(defaultOption);
+
+            locations[selectedCountry].forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.text = city;
+                citySelect.appendChild(option);
+            });
+        } else {
+            const option = document.createElement("option");
+            option.value = "";
+            option.text = "-- Wybierz najpierw kraj --";
+            citySelect.appendChild(option);
+        }
+    }
+</script>
 </body>
 </html>
