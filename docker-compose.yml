@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  app:
+    image: ghcr.io/grzemotlm/zadanie1_pawcho:latest
+    container_name: zadanie1_pawcho
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
