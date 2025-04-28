@@ -7,7 +7,6 @@ LABEL org.opencontainers.image.authors="Grzegorz Łukomski <grzegorz.lukom@gmail
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-
 RUN npm install --only=production
 
 FROM node:18-alpine
