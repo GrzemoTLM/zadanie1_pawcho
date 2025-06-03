@@ -13,8 +13,11 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+COPY package.json package-lock.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY . .
+
+RUN npm install --only=production
 
 EXPOSE 3000
 
