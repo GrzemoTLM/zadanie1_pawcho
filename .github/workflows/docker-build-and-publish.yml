@@ -37,18 +37,17 @@ jobs:
         with:
           driver: docker-container
 
-      - name: Build image (local, no push)
+      - name: Build image for Trivy scan (amd64 only)
         id: build-local
         uses: docker/build-push-action@v4
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: false
           load: true
           tags: |
             ghcr.io/grzemotlm/zadanie1_pawcho:${{ github.sha }}
-            ghcr.io/grzemotlm/zadanie1_pawcho:latest
           cache-from: type=registry,ref=grzemo11/zadanie2pawcho:cache
           cache-to:   type=registry,ref=grzemo11/zadanie2pawcho:cache,mode=max
 
@@ -60,7 +59,7 @@ jobs:
           exit-code: 1
           github-pat: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push image to GHCR
+      - name: Push multi-arch image to GHCR
         if: ${{ success() }}
         uses: docker/build-push-action@v4
         with:
