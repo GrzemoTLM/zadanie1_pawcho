@@ -25,7 +25,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.DOCKER_PAT }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -57,7 +57,7 @@ jobs:
           image-ref: ghcr.io/grzemotlm/zadanie1_pawcho:${{ github.sha }}
           severity: CRITICAL,HIGH
           exit-code: 1
-          github-pat: ${{ secrets.GITHUB_TOKEN }}
+          github-pat: ${{ secrets.DOCKER_PAT }}
 
       - name: Push multi-arch image to GHCR
         if: ${{ success() }}
