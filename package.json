@@ -1,5 +1,10 @@
 {
   "dependencies": {
     "cross-spawn": "^7.0.6"
+  },
+  "overrides": {
+    "execa": {
+      "cross-spawn": "^7.0.6"
+    }
   }
 }
