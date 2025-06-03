@@ -50,9 +50,8 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/zadanie1_pawcho:latest
           cache-from: type=registry,ref=grzemo11/zadanie2pawcho:cache
           cache-to:   type=registry,ref=grzemo11/zadanie2pawcho:cache,mode=max
-
       - name: Scan image for vulnerabilities
-        uses: aquasecurity/trivy-action@v0.11.10
+        uses: aquasecurity/trivy-action@0.14.0
         with:
           image-ref: ghcr.io/${{ github.repository_owner }}/zadanie1_pawcho:${{ github.sha }}
           severity: CRITICAL,HIGH
@@ -71,3 +70,4 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/zadanie1_pawcho:latest
           cache-from: type=registry,ref=grzemo11/zadanie2pawcho:cache
           cache-to:   type=registry,ref=grzemo11/zadanie2pawcho:cache,mode=max
+
